@@ -28,7 +28,7 @@
                   <a href="index.html" class="logo"><strong>Forty</strong> <span>by HTML5 UP</span></a>
                   <nav>
                         <% if(info != null){%>
-                           <a href="#menu">개인정보수정</a>
+                           <a href="update.jsp">개인정보수정</a>
                            <a href="LogoutServiceCon">로그아웃</a>
                         <%}else{ %>
                            <a href="#menu">로그인</a>

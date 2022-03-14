@@ -16,20 +16,19 @@ public class LogoutServiceCon extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		System.out.println("[LogoutServiceCon]");
-		
+
 		// 로그아웃 -> 로그인 한 정보 삭제
 		HttpSession session = request.getSession();
-		
+
 		// 1. 세션 삭제 -> 세션 종료
 		// session.invalidate();
-		
+
 		// 2. 세션 삭제 -> 특정 세션 삭제
 		session.removeAttribute("info");
-		
+
 		System.out.println("로그아웃 성공");
 		response.sendRedirect("main.jsp");
-		
-		
+
 	}
 
 }

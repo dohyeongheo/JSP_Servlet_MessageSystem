@@ -135,7 +135,32 @@ public class MemberDAO {
 			e.printStackTrace();
 		} finally {
 			dbclose();
-		} return dto;
+		}
+		return dto;
 
 	}
+
+	// 회원정보수정 메소드
+	public int update(MemberDTO dto) {
+		dbconn();
+		try {
+			String sql = "update web_member2 set pw = ?, tel = ?, address = ? where email = ?";
+
+			psmt = conn.prepareStatement(sql);
+
+			psmt.setString(1, dto.getPw());
+			psmt.setString(2, dto.getTel());
+			psmt.setString(3, dto.getAddress());
+			psmt.setString(4, dto.getEmail());
+
+			cnt = psmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			dbclose();
+		}
+		return cnt;
+	}
+
 }
