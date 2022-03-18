@@ -1,12 +1,12 @@
 <%@page import="Model.MemberDTO"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
 		<title>Forty by HTML5 UP</title>
-		<meta charset="utf-8" />
-		<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+		<meta charset="UTF-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
@@ -25,12 +25,12 @@ MemberDTO info = (MemberDTO)session.getAttribute("info");
 				<!-- Menu -->
 					<nav id="Update">	
 						<ul class="actions vertical">
-							<li><h5>È¸¿øÁ¤º¸¼öÁ¤</h5></li>
-								<form action="UpdateServiceCon" method="post">
-									<li>Á¢¼ÓÇÑ Email : <%= info.getEmail() %></li>
-									<li><input type="password" name = "pw" placeholder="PW¸¦ ÀÔ·ÂÇÏ¼¼¿ä" style="width: 500px; margin: 0 auto;"></li>
-									<li><input type="text" name = "tel" placeholder="ÀüÈ­¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä" style="width: 500px; margin: 0 auto;"></li>
-									<li><input type="text" name ="address" placeholder="ÁıÁÖ¼Ò¸¦ ÀÔ·ÂÇÏ¼¼¿ä" style="width: 500px; margin: 0 auto;"></li>
+							<li><h5>íšŒì›ì •ë³´ìˆ˜ì •</h5></li>
+								<form action="UpdateServiceCon.do" method="post">
+									<li>ì ‘ì†í•œ Email : <%= info.getEmail() %></li>
+									<li><input type="password" name = "pw" placeholder="PWë¥¼ ì…ë ¥í•˜ì„¸ìš”" style="width: 500px; margin: 0 auto;"></li>
+									<li><input type="text" name = "tel" placeholder="ì „í™”ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”" style="width: 500px; margin: 0 auto;"></li>
+									<li><input type="text" name ="address" placeholder="ì§‘ì£¼ì†Œë¥¼ ì…ë ¥í•˜ì„¸ìš”" style="width: 500px; margin: 0 auto;"></li>
 									<li><input type="hidden" name="email" value="<%= info.getEmail() %>"></li>
 									<li><input type="submit" value="JoinUs" class="button fit" style="width: 500px; margin: 0 auto;"></li>
 								</form>

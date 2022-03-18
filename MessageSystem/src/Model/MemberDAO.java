@@ -16,7 +16,7 @@ public class MemberDAO {
 	int cnt = 0;
 
 	// DB연결 메소드
-	public void dbconn() {
+	public Connection dbconn() {
 
 		// 1. DB연결(ojdbc.6.jar 넣어주기)
 		// 1-1. Class 찾기 : DB와 이클립스를 연결해주는 Class
@@ -33,6 +33,7 @@ public class MemberDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return conn;
 	}
 
 	// DB연결종료 메소드
@@ -163,4 +164,20 @@ public class MemberDAO {
 		return cnt;
 	}
 
+// 회원삭제 메소드
+	public int delete(String email) {
+		dbconn();
+		try {
+		String sql = "Delete from web_member2 where email=?";
+		psmt = conn.prepareStatement(sql);
+		psmt.setString(1, email);
+		cnt = psmt.executeUpdate();
+		
+		} catch (Exception e) {
+		 e.printStackTrace();
+		} finally {
+			dbclose();
+		} return cnt;
+	}
+	
 }

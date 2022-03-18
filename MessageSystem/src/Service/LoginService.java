@@ -1,26 +1,28 @@
-package Controller;
+package Service;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Model.MemberDAO;
 import Model.MemberDTO;
+import inter.Command;
 
-@WebServlet("/LoginServiceCon")
-public class LoginServiceCon extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+public class LoginService implements Command {
 
-	protected void service(HttpServletRequest request, HttpServletResponse response)
+	@Override
+	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		// 로그인 기능
+
 		System.out.println("[LoginServiceCon 접속]");
 
 		// 1. post 방식 인코딩
-		request.setCharacterEncoding("euc-kr");
+		request.setCharacterEncoding("UTF-8");
 
 		// 2. eamil, pw 받아오기
 		String email = request.getParameter("loginemail");
@@ -38,9 +40,9 @@ public class LoginServiceCon extends HttpServlet {
 		} else {
 			System.out.println("로그인 실패");
 		}
-		// 5. 메인페이지로 돌아가기		
-		response.sendRedirect("main.jsp");
-
+		// 5. 메인페이지로 돌아가기
+		String nextpage = "goMain";
+		return nextpage;
+		// 로그인 기능 마지막 줄
 	}
-
 }

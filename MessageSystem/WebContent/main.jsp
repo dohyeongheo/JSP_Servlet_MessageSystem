@@ -1,11 +1,13 @@
+<%@page import="Model.MessageDTO"%>
+<%@page import="java.util.List"%>
 <%@page import="Model.MemberDTO"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>  
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
    <head>
       <title>Forty by HTML5 UP</title>
-      <meta charset="utf-8" />
+      <meta charset="UTF-8" />
       <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
       <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
       <link rel="stylesheet" href="assets/css/main.css" />
@@ -14,10 +16,12 @@
    </head>
    <body>
    <%
-      // session�� �ִ� ȸ������ ��������
-      // �α��� ���� �� info�� �����������.
-      // �α��� ���� �� info���� null��.
+      // session에 있는 회원정보 가져오기
+      // 로그인 성공 시 info에 정보담겨있음.
+      // 로그인 실패 시 info에는 null임.
       MemberDTO info = (MemberDTO)session.getAttribute("info");
+   
+   List<MessageDTO> msglist = (List<MessageDTO>)request.getAttribute("msglist");
    %>
 
       <!-- Wrapper -->
@@ -28,34 +32,41 @@
                   <a href="index.html" class="logo"><strong>Forty</strong> <span>by HTML5 UP</span></a>
                   <nav>
                         <% if(info != null){%>
-                           <a href="update.jsp">������������</a>
-                           <a href="LogoutServiceCon">�α׾ƿ�</a>
+                        <!-- 아이디가 admin이면 회원 전체 검색이 되도록 -->
+                        <% if(info.getEmail().equals("admin")) { %>
+                        <a href="select.jsp"> 회원전체검색 </a>
+                           <a href="update.jsp">개인정보수정</a>
+                           <a href="LogoutServiceCon.do">로그아웃</a>
+						<% }else{ %>  	
+						<a href="update.jsp">개인정보수정</a>
+                           <a href="LogoutServiceCon.do">로그아웃</a>
+                           <% } %>
                         <%}else{ %>
-                           <a href="#menu">�α���</a>
+                           <a href="#menu">로그인</a>
                         <%} %>
-                     <!-- �α��� �� Logout.jsp�� �̵��� �� �ִ�'�α׾ƿ�'��ũ�� '������������'��ũ�� ����Ͻÿ�. -->
+                     <!-- 로그인 후 Logout.jsp로 이동할 수 있는'로그아웃'링크와 '개인정보수정'링크를 출력하시오. -->
                   </nav>
                </header>
 
             <!-- Menu -->
                <nav id="menu">   
                   <ul class="links">
-                     <li><h5>�α���</h5></li>
-                        <form action="LoginServiceCon" method="post">
-                           <li><input type="text" name="loginemail" placeholder="Email�� �Է��ϼ���"></li>
-                           <li><input type="password" name="pw" placeholder="PW�� �Է��ϼ���"></li>
+                     <li><h5>로그인</h5></li>
+                        <form action="LoginServiceCon.do" method="post">
+                           <li><input type="text" name="loginemail" placeholder="Email을 입력하세요"></li>
+                           <li><input type="password" name="pw" placeholder="PW를 입력하세요"></li>
                            <li><input type="submit" value="LogIn" class="button fit"></li>
                         </form>
                   </ul>
                   <ul class="actions vertical">
-                     <li><h5>ȸ������</h5></li>
-                        <form action="JoinServiceCon" method="post">
-                           <li><input id="inputemail" type="text" name="email" placeholder="Email�� �Է��ϼ���"> 
-                           <button type="button" id="btn"> ���̵� �ߺ�üũ </button> </li>
+                     <li><h5>회원가입</h5></li>
+                        <form action="JoinServiceCon.do" method="post">
+                           <li><input id="inputemail" type="text" name="email" placeholder="Email을 입력하세요"> 
+                           <button type="button" id="btn"> 아이디 중복체크 </button> </li>
                            <li> <p id="idcheck"> </p> </li>
-                           <li><input type="password" name="pw" placeholder="PW�� �Է��ϼ���"></li>
-                           <li><input type="text" name="tel" placeholder="��ȭ��ȣ�� �Է��ϼ���"></li>
-                           <li><input type="text" name="address" placeholder="���ּҸ� �Է��ϼ���"></li>
+                           <li><input type="password" name="pw" placeholder="PW를 입력하세요"></li>
+                           <li><input type="text" name="tel" placeholder="전화번호를 입력하세요"></li>
+                           <li><input type="text" name="address" placeholder="집주소를 입력하세요"></li>
                            <li><input type="submit" value="JoinUs" class="button fit"></li>
                         </form>
                   </ul>
@@ -65,17 +76,17 @@
                   <div class="inner">
                      <header class="major">
                               <%if(info != null){ %>
-                                 <h1> <%= info.getEmail() %>�� ȯ���մϴ�. </h1>
+                                 <h1> <%= info.getEmail() %>님 환영합니다. </h1>
                               <%}else{ %>
-                                 <h1>�α��� �� ���Ǿ��̵� ������ּ���</h1>
+                                 <h1>로그인 한 세션아이디를 출력해주세요</h1>
                               <%} %>
-                        <!-- �α��� �� �α��� �� ������� ���Ǿ��̵�� �ٲٽÿ�.
-                            ex)smart�� ȯ���մϴ� -->
+                        <!-- 로그인 후 로그인 한 사용자의 세션아이디로 바꾸시오.
+                            ex)smart님 환영합니다 -->
                      </header>
                      <div class="content">
-                        <p>�Ʒ��� ���ݱ��� ��� �� ������Դϴ�.<br></p>
+                        <p>아래는 지금까지 배운 웹 기술들입니다.<br></p>
                         <ul class="actions">
-                           <li><a href="#one" class="button next scrolly">Ȯ���ϱ�</a></li>
+                           <li><a href="#one" class="button next scrolly">확인하기</a></li>
                         </ul>
                      </div>
                   </div>
@@ -92,7 +103,7 @@
                            </span>
                            <header class="major">
                               <h3><a href="#" class="link">HTML</a></h3>
-                              <p>Ȩ�������� ����� ���� ���</p>
+                              <p>홈페이지를 만드는 기초 언어</p>
                            </header>
                         </article>
                         <article>
@@ -101,7 +112,7 @@
                            </span>
                            <header class="major">
                               <h3><a href="#" class="link">CSS</a></h3>
-                              <p>HTML�� ���������ִ� ���</p>
+                              <p>HTML을 디자인해주는 언어</p>
                            </header>
                         </article>
                         <article>
@@ -110,7 +121,7 @@
                            </span>
                            <header class="major">
                               <h3><a href="#" class="link">Servlet/JSP</a></h3>
-                              <p>Java�� �⺻���� �� �� ���α׷��� ���/��ũ��Ʈ ���</p>
+                              <p>Java를 기본으로 한 웹 프로그래밍 언어/스크립트 언어</p>
                            </header>
                         </article>
                         <article>
@@ -119,7 +130,7 @@
                            </span>
                            <header class="major">
                               <h3><a href="#" class="link">JavaScript</a></h3>
-                              <p>HTML�� �⺻���� ������ ������ �� �ִ� ���</p>
+                              <p>HTML에 기본적인 로직을 정의할 수 있는 언어</p>
                            </header>
                         </article>
                         <article>
@@ -128,7 +139,7 @@
                            </span>
                            <header class="major">
                               <h3><a href="#" class="link">MVC</a></h3>
-                              <p>�� ������Ʈ �� ���� ���� ����ϴ� ����������</p>
+                              <p>웹 프로젝트 중 가장 많이 사용하는 디자인패턴</p>
                            </header>
                         </article>
                         <article>
@@ -137,7 +148,7 @@
                            </span>
                            <header class="major">
                               <h3><a href="#" class="link">Web Project</a></h3>
-                              <p>�������� ����������Ʈ�� �� ����� Ȱ���ϼ���!</p>
+                              <p>여러분의 최종프로젝트에 웹 기술을 활용하세요!</p>
                            </header>
                         </article>
                      </section>
@@ -145,12 +156,32 @@
                      <section id="two">
                         <div class="inner">
                            <header class="major">
-                              <h2>������ �� �޼��� Ȯ���ϱ�</h2>
+                              <h2>나에게 온 메세지 확인하기</h2>
                            </header>
                            <p></p>
                            <ul class="actions">
-                              <li>�α����� �ϼ���.</li>
-                              <li><a href="#" class="button next scrolly">��ü�����ϱ�</a></li>
+                           <%
+                           /* 로그인을 했으면 메세지 출력 send_name, context, sendDate */
+                           if (msglist != null) {
+                        	/* for each문 : 확장 for문
+                        	for(객체타입 변수명 : 배열) {} */
+                        	for(MessageDTO mdto : msglist) {
+                        		%>
+                        		<li>
+                        		<span><%= mdto.getSend_name() %></span>
+                        		<span><%= mdto.getContent()%></span>
+                        		<span><%= mdto.getSendDate() %> </span>
+                        		</li>
+                        		<% } %>                        		
+                        	<% } else {%>
+                        	
+                                <li>로그인을 하세요.</li> 
+                        		
+                                <% } %>
+                           
+                           
+                           <!-- 로그인 상태가 아니면 뜨도록 -->
+                              <li><a href="#" class="button next scrolly">전체삭제하기</a></li>
                            </ul>
                         </div>
                      </section>
@@ -161,19 +192,20 @@
                <section id="contact">
                   <div class="inner">
                      <section>
-                        <form>
+                     <!-- content 용량 때문에 post방식을 사용 -->
+                        <form action="MsgCon.do" method="post">
                         <div class="field half first">
                               <label for="name">Name</label>
-                              <input type="text"  id="name" placeholder="������ ��� �̸�" />
+                              <input type="text" name="send_name" id="name" placeholder="보내는 사람 이름" />
                            </div>
                            <div class="field half">
                               <label for="email">Email</label>
-                              <input type="text"  id="email" placeholder="���� ��� �̸���"/>
+                              <input type="text" name="receive_email" id="email" placeholder="보낼 사람 이메일"/>
                            </div>
 
                            <div class="field">
                               <label for="message">Message</label>
-                              <textarea  id="message" rows="6"></textarea>
+                              <textarea name="content" id="message" rows="6"></textarea>
                            </div>
                            <ul class="actions">
                               <li><input type="submit" value="Send Message" class="special" /></li>
@@ -190,9 +222,9 @@
                               <%if(info != null){ %>
                                  <a href="#"> <%= info.getEmail() %></a>
                               <%}else{ %>
-                                 <a href="#">�α��� �� ����� �̸����� ���</a>
+                                 <a href="#">로그인 한 사람의 이메일을 출력</a>
                               <%} %>
-                              <!-- �α��� �� ������� �̸����� ����Ͻÿ� -->
+                              <!-- 로그인 한 사용자의 이메일을 출력하시오 -->
                            </div>
                         </section>
                         <section>
@@ -202,10 +234,10 @@
                               <%if(info != null){ %>
                                  <span> <%= info.getTel() %></span>
                               <%}else{ %>
-                                 <span>�α��� �� ����� ��ȭ��ȣ�� ���</span>
+                                 <span>로그인 한 사람의 전화번호를 출력</span>
                               <%} %>
                               
-                              <!-- �α��� �� ������� ��ȭ��ȣ�� ����Ͻÿ� -->
+                              <!-- 로그인 한 사용자의 전화번호를 출력하시오 -->
                            </div>
                         </section>
                         <section>
@@ -215,10 +247,10 @@
                               <%if(info != null){ %>
                                  <span> <%= info.getAddress() %></span>
                               <%}else{ %>
-                                 <span>�α��� �� ����� ���ּҸ� ���</span>
+                                 <span>로그인 한 사람의 집주소를 출력</span>
                               <%} %>
                               
-                              <!-- �α��� �� ������� ���ּҸ� ����Ͻÿ� -->
+                              <!-- 로그인 한 사용자의 집주소를 출력하시오 -->
                            </div>
                         </section>
                      </section>               
@@ -247,32 +279,32 @@
          <script src="assets/js/jquery.min.js"></script>
          
          <script type="text/javascript">
-            // 0. ���̵� �ߺ�üũ ��ư�� Ŭ������ ��!
+            // 0. 아이디 중복체크 버튼을 클릭했을 때!
             $('#btn').on('click', function() {
-               // 1. �Է��� email ��������
+               // 1. 입력한 email 가져오기
                let email = $('input[name=email]').val();
                console.log(email);
 
-               // 2. ajax�� email ������(IdCheckServiceCon)
+               // 2. ajax로 email 보내기(IdCheckServiceCon)
                $.ajax({
-                  url : 'idcheckServiceCon', /* ���� ������ */
+                  url : 'idcheckServiceCon.do', /* 어디로 보낼지 */
                   type : 'post',
-                  data : { /* �Է��� email data������ */
+                  data : { /* 입력한 email data보내기 */
                      email : email
                   },
-                  dataType : "text", /* �ߺ�üũ ����� text�� �޾ƿ��� */
+                  dataType : "text", /* 중복체크 결과값 text로 받아오기 */
                   success : function(result){
-                     alert('����', result);
+                     alert('성공', result);
                      if(result=='false'){
-                        // �ߺ�X
-                        $('#idcheck').html('�ߺ��Ǵ� ���̵� �����ϴ�.');
+                        // 중복X
+                        $('#idcheck').html('중복되는 아이디가 없습니다.');
                      }else{
-                        // �ߺ�O
-                        $('#idcheck').html('���̵� �ߺ��˴ϴ�.');
+                        // 중복O
+                        $('#idcheck').html('아이디가 중복됩니다.');
                      }
                   },
                   error:function(){
-                     alert('����');
+                     alert('실패');
                   }
                });
             });

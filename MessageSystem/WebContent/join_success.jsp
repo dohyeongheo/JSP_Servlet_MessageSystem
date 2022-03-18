@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<title>Forty by HTML5 UP</title>
-		<meta charset="UTF-8" />
+		<meta charset="UTF-8"/>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -33,7 +33,7 @@ String email =  (String)session.getAttribute("email");
 							<li>회원가입을 축하합니다.</li>
 							<!-- request영역에 저장된 회원정보 중 이메일을 출력하시오. -->
 							<li>메세지시스템의 새로운 이메일은 <%= email %>입니다.</li>
-							<li><button onclick='location.href="main.jsp"'>시작하기</button></li>
+							<li><button onclick='location.href="goMain"'>시작하기</button></li>
 						</ul>
 					</nav>			
 			</div>
